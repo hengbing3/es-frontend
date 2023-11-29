@@ -2,7 +2,7 @@
  * @Author: Christer hongweibing3@gmail.com
  * @Date: 2023-10-08 15:46:29
  * @LastEditors: Christer hongweibing3@gmail.com
- * @LastEditTime: 2023-11-23 00:18:12
+ * @LastEditTime: 2023-11-29 23:35:17
  * @FilePath: \es-frontend\src\views\IndexPage.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -37,16 +37,23 @@ import PostList from "@/components/PostList.vue";
 import PictureList from "@/components/PictureList.vue";
 import MyDivider from "@/components/MyDivider.vue";
 import { useRouter, useRoute } from "vue-router";
+import myAxios from "@/plugins/myAxios";
 
 const route = useRoute();
 const router = useRouter();
 const activeKey = route.params.category;
-const searchParams = ref({
+
+const initSearchParams = {
   text: "",
-});
+  pageSize: 10,
+  pageNum: 1,
+};
+
+const searchParams = ref(initSearchParams);
 
 watchEffect(() => {
   searchParams.value = {
+    ...initSearchParams,
     text: route.query.text as string,
   };
 });
