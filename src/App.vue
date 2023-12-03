@@ -2,7 +2,7 @@
  * @Author: Christer hongweibing3@gmail.com
  * @Date: 2023-10-08 15:46:29
  * @LastEditors: Christer hongweibing3@gmail.com
- * @LastEditTime: 2023-11-06 23:17:39
+ * @LastEditTime: 2023-12-03 21:50:33
  * @FilePath: \es-frontend\src\App.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -14,10 +14,10 @@
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: center; */
   color: #2c3e50;
   padding: 20px;
   max-width: 1024px;
