@@ -1,13 +1,35 @@
-<!--
- * @Author: Christer hongweibing3@gmail.com
- * @Date: 2023-10-12 23:51:56
- * @LastEditors: Christer hongweibing3@gmail.com
- * @LastEditTime: 2023-10-12 23:52:15
- * @FilePath: \es-frontend\src\components\PictureList.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
-  <div>用户列表</div>
+  <a-list
+    item-layout="horizontal"
+    :grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
+    :data-source="props.pictureList"
+  >
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <a-card hoverable>
+          <template #cover>
+            <img alt="example" :src="item.url" />
+          </template>
+          <a-card-meta :title="item.title" />
+        </a-card>
+      </a-list-item>
+    </template>
+  </a-list>
 </template>
-<script setup lang="ts"></script>
-<style scoped></style>
+
+<script setup lang="ts">
+import { withDefaults, defineProps } from "vue";
+
+interface Props {
+  pictureList: any[];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  pictureList: () => [],
+});
+</script>
+<style scoped>
+.gege {
+  width: 200px;
+}
+</style>

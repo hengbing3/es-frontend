@@ -1,8 +1,8 @@
 <!--
- * @Author: Christer hongweibing3@gmail.com
+ * @Author: Christer hongweibin3@gmail.com
  * @Date: 2023-10-08 15:46:29
- * @LastEditors: Christer hongweibing3@gmail.com
- * @LastEditTime: 2023-12-03 22:10:53
+ * @LastEditors: Christer hongweibin3@gmail.com
+ * @LastEditTime: 2023-12-07 23:16:51
  * @FilePath: \es-frontend\src\views\IndexPage.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -21,7 +21,7 @@
         <PostList :post-list="postList" />
       </a-tab-pane>
       <a-tab-pane key="picture" tab="图片">
-        <PictureList />
+        <PictureList :picture-list="pictureList" />
       </a-tab-pane>
       <a-tab-pane key="user" tab="用户">
         <UserList :user-list="userList" />
@@ -44,31 +44,8 @@ const router = useRouter();
 const activeKey = route.params.category;
 const postList = ref([]);
 const userList = ref([]);
+const pictureList = ref([]);
 const token = ref("");
-myAxios
-  .post("/user/login", { userAccount: "admin", userPassword: "123456" })
-  .then((res) => {
-    token.value = res.data;
-  });
-
-myAxios
-  .post("/post/page", {
-    currentPage: 1,
-    pageSize: 10,
-  })
-  .then((res) => {
-    postList.value = res.data.records;
-  });
-
-myAxios
-  .post("/user/page", {
-    currentPage: 1,
-    pageSize: 10,
-  })
-  .then((res) => {
-    console.log(res.data.records);
-    userList.value = res.data.records;
-  });
 
 const initSearchParams = {
   text: "",
@@ -89,6 +66,15 @@ const onSearch = (searchValue: string) => {
   router.push({
     query: searchParams.value,
   });
+  myAxios
+    .post("/picture/page", {
+      searchText: searchParams.value,
+      currentPage: 1,
+      pageSize: 10,
+    })
+    .then((res) => {
+      pictureList.value = res.data.records;
+    });
 };
 
 const onTabChange = (key: string) => {
@@ -97,4 +83,33 @@ const onTabChange = (key: string) => {
     query: searchParams.value,
   });
 };
+
+myAxios
+  .post("/post/page", {
+    currentPage: 1,
+    pageSize: 10,
+  })
+  .then((res) => {
+    postList.value = res.data.records;
+  });
+
+myAxios
+  .post("/user/page", {
+    currentPage: 1,
+    pageSize: 10,
+  })
+  .then((res) => {
+    console.log(res.data.records);
+    userList.value = res.data.records;
+  });
+
+myAxios
+  .post("/picture/page", {
+    searchText: initSearchParams.text,
+    currentPage: 1,
+    pageSize: 10,
+  })
+  .then((res) => {
+    pictureList.value = res.data.records;
+  });
 </script>
