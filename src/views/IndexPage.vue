@@ -2,7 +2,7 @@
  * @Author: Christer hongweibin3@gmail.com
  * @Date: 2023-10-08 15:46:29
  * @LastEditors: Christer hongweibin3@gmail.com
- * @LastEditTime: 2023-12-07 23:16:51
+ * @LastEditTime: 2023-12-10 18:27:57
  * @FilePath: \es-frontend\src\views\IndexPage.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -45,15 +45,31 @@ const activeKey = route.params.category;
 const postList = ref([]);
 const userList = ref([]);
 const pictureList = ref([]);
-const token = ref("");
 
 const initSearchParams = {
   text: "",
   pageSize: 10,
   pageNum: 1,
 };
+/**
+ * 加载数据
+ * @param params 请求参数
+ */
+const loadData = (params: any) => {
+  const query = {
+    ...params,
+    searchText: params.text,
+  };
+  myAxios.post("/search/page", query).then((res: any) => {
+    postList.value = res.postList;
+    userList.value = res.userList;
+    pictureList.value = res.pictureList;
+  });
+};
 
 const searchParams = ref(initSearchParams);
+// 首次请求
+loadData(initSearchParams);
 
 watchEffect(() => {
   searchParams.value = {
@@ -62,19 +78,12 @@ watchEffect(() => {
   };
 });
 const onSearch = (searchValue: string) => {
-  alert(searchValue);
+  console.log(searchValue);
   router.push({
     query: searchParams.value,
   });
-  myAxios
-    .post("/picture/page", {
-      searchText: searchParams.value,
-      currentPage: 1,
-      pageSize: 10,
-    })
-    .then((res) => {
-      pictureList.value = res.data.records;
-    });
+  // 查询请求
+  loadData(searchParams.value);
 };
 
 const onTabChange = (key: string) => {
@@ -83,33 +92,4 @@ const onTabChange = (key: string) => {
     query: searchParams.value,
   });
 };
-
-myAxios
-  .post("/post/page", {
-    currentPage: 1,
-    pageSize: 10,
-  })
-  .then((res) => {
-    postList.value = res.data.records;
-  });
-
-myAxios
-  .post("/user/page", {
-    currentPage: 1,
-    pageSize: 10,
-  })
-  .then((res) => {
-    console.log(res.data.records);
-    userList.value = res.data.records;
-  });
-
-myAxios
-  .post("/picture/page", {
-    searchText: initSearchParams.text,
-    currentPage: 1,
-    pageSize: 10,
-  })
-  .then((res) => {
-    pictureList.value = res.data.records;
-  });
 </script>

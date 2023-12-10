@@ -1,19 +1,17 @@
 /*
  * @Author: Christer hongweibing3@gmail.com
  * @Date: 2023-11-29 23:26:34
- * @LastEditors: Christer hongweibing3@gmail.com
- * @LastEditTime: 2023-12-03 22:08:04
+ * @LastEditors: Christer hongweibin3@gmail.com
+ * @LastEditTime: 2023-12-10 18:26:40
  * @FilePath: \es-frontend\src\plugins\myAxios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import axios from "axios";
 const instance = axios.create({
   baseURL: "http://localhost:8101/api",
-  timeout: 10000,
+  timeout: 60000,
   headers: { "X-Custom-Header": "foobar" },
 });
-
-export default instance;
 
 // 添加请求拦截器
 instance.interceptors.request.use(
@@ -34,7 +32,7 @@ instance.interceptors.response.use(
     // 对响应数据做点什么
     const data = response.data;
     if (data.code === 200) {
-      return response.data;
+      return data.data;
     }
     console.error("request error", data);
     return response.data;
@@ -45,3 +43,4 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+export default instance;
